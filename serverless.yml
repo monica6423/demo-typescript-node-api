@@ -1,0 +1,163 @@
+service: prisma-crud
+
+variablesResolutionMode: 20210326
+
+package:
+  patterns:
+    - "!./**"
+    - "ncc/**"
+    # - ./config/config.json # Use for custom config JSON files
+
+plugins:
+  - serverless-offline
+  - serverless-api-gateway-caching
+
+provider:
+  name: aws
+  region: us-east-1
+  stage: dev
+  runtime: nodejs16.x
+  architecture: arm64
+  lambdaHashingVersion: 20201221
+  logRetentionInDays: 7
+  # apiGateway: # https://www.serverless.com/framework/docs/providers/aws/events/apigateway
+  #   restApiId: 'something'
+  #   restApiRootResourceId: 'something'
+  #   apiKeys:
+  #     - key-1
+  # vpc:
+  #   securityGroupIds:
+  #     - sg-00000000000000000
+  #   subnetIds:
+  #     - subnet-00000000
+  environment:
+    DATABASE_URL: "postgresql://postgres:password@localhost:5432/postgres?schema=public&connection_limit=1&pool_timeout=120"
+
+functions:
+  rpc:
+    handler: ./ncc/index.rpc
+    memorySize: 256
+    events:
+      - http:
+          path: /api/rpc
+          method: post
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - POST
+  companies:
+    handler: ./ncc/index.getCompanies
+    memorySize: 256
+    timeout: 15
+    events:
+      - http:
+          path: api/get-companies
+          method: get
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - GET
+          caching:
+            enabled: true
+            ttlInSeconds: 300
+            cacheKeyParameters:
+              - name: request.querystring.skip
+              - name: request.querystring.take
+              - name: request.querystring.currentPage
+              - name: request.querystring.sort
+              - name: request.querystring.sortDirection
+  create-company:
+    handler: ./ncc/index.createCompany
+    memorySize: 256
+    events:
+      - http:
+          path: /api/create-company
+          method: post
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - POST
+  get-stations:
+    handler: ./ncc/index.getStations
+    memorySize: 256
+    events:
+      - http:
+          path: /api/get-stations
+          method: get
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - GET
+  get-station:
+    handler: ./ncc/index.getStation
+    memorySize: 256
+    events:
+      - http:
+          path: /api/get-station
+          method: get
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - GET
+  get-station-type:
+    handler: ./ncc/index.getStationType
+    memorySize: 256
+    events:
+      - http:
+          path: /api/get-station-type
+          method: get
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - GET
+  get-stations-by-companyId:
+    handler: ./ncc/index.getStationsByCompanyId
+    memorySize: 256
+    events:
+      - http:
+          path: /api/get-stations-by-companyId
+          method: get
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - GET
+  create-station-type:
+    handler: ./ncc/index.createStationType
+    memorySize: 256
+    events:
+      - http:
+          path: /api/create-station-type
+          method: post
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - POST
+  create-station:
+    handler: ./ncc/index.createStation
+    memorySize: 256
+    events:
+      - http:
+          path: /api/create-station
+          method: post
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - POST

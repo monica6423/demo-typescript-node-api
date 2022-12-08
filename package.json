@@ -1,0 +1,59 @@
+{
+  "name": "prisma-crud",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": "^16.17.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "build:ncc": "rm -rf ncc/* && yarn ncc build -m -o ncc -s --target es2020 src/handlers.ts && cp -rfv ncc/client/* ncc/ && rm -rf ncc/client ncc/libquery_engine-debian-*",
+    "build:ncc:local": "rm -rf ncc/* && yarn ncc build -m -o ncc -s --target es2020 src/handlers.ts && cp -rfv ncc/client/* ncc/ && rm -rf ncc/client && mkdir ncc/tmp",
+    "clean": "rm -rf ./dist *.tgz",
+    "compile": "tsc -p tsconfig.json",
+    "lint": "yarn prettier:check && yarn lint:eslint && yarn lint:prisma-format",
+    "lint:prisma-format": "yarn prisma format",
+    "lint:eslint": "eslint . --ext .js,.ts",
+    "database:dev:setup": "export DATABASE_URL=\"postgresql://postgres:password@localhost:5432/postgres?schema=public&connection_limit=1&pool_timeout=120\"; $SHELL",
+    "database:prisma:studio": "yarn prisma studio",
+    "database:prisma:generate": "yarn prisma generate",
+    "database:dev:start": "docker run --name prisma-db -d --rm -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=password postgres:14",
+    "database:dev:stop": "docker kill prisma-db",
+    "database:dev:seed": "ts-node src/examples/seed-database.ts",
+    "api:dev:start": "sls offline",
+    "prettier:check": "prettier --check \"./**/*.{js,ts,md,json}\"",
+    "prettier:write": "prettier --write \"./**/*.{js,ts,md,json}\""
+  },
+  "dependencies": {
+    "@prisma/client": "^4.7.1",
+    "aws-lambda": "^1.0.7",
+    "cors": "^2.8.5",
+    "prisma": "^4.7.1",
+    "serverless-api-gateway-caching": "^1.9.0",
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@prisma/generator-helper": "^4.7.1",
+    "@types/aws-lambda": "^8.10.109",
+    "@types/cors": "^2.8.12",
+    "@types/node": "^18.11.10",
+    "@types/serverless": "^3.12.9",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vercel/ncc": "^0.34.0",
+    "eslint": "^8.29.0",
+    "eslint-plugin-functional": "^4.4.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^27.1.6",
+    "prettier": "^2.8.0",
+    "serverless": "^3.25.1",
+    "serverless-offline": "^12.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  }
+}

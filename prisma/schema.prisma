@@ -1,0 +1,70 @@
+// Notes
+// Generates a JS/TS client with associated types
+// Binary Targets
+// native for local, darwin-arm64 for deployed arm64 AWS lambdas and linux-arm64-openssl-1.0.x for local serverless offline AWS lambdas
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64", "linux-arm64-openssl-1.0.x"]
+}
+
+// Generates an Entity Relationship Diagram aka ERD
+// generator erd {
+//   provider                  = "prisma-erd-generator"
+//   theme                     = "forest"
+//   includeRelationFromFields = true
+// }
+
+// generator PrismaTypeGraphQLTypesGenerator {
+// provider     = "yarn prisma-typegraphql-types-generator"
+// modelsOutput = "./src/models" // Optional defaults to "./src/generated/models"
+// enumsOutput  = "./src/types/enums" // Optional defaults to "./src/generated/enums"
+// useYarn      = true // Optional if you want `graphql-scalars` installation to be done via yarn defaults to "npm"
+//}
+
+// Configures the datasource
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // eg = "postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public"
+}
+
+// Notes
+// Postgres DOMAIN not supported :( https://github.com/prisma/prisma/issues/1796
+// https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#postgresql
+// have to create checks as a migration
+
+model Company {
+  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String
+  stations        Station[]
+  parentCompanyId String?   @db.Uuid
+  parentCompany   Company?  @relation("ParentChildren", fields: [parentCompanyId], references: [id])
+  childCompanies  Company[] @relation("ParentChildren")
+  updatedAt       DateTime  @updatedAt
+  createdAt       DateTime  @default(dbgenerated("now()"))
+}
+
+model Station {
+  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  companyId     String         @db.Uuid
+  company       Company        @relation(fields: [companyId], references: [id])
+  stationType   StationType    @relation(fields: [stationTypeId], references: [id])
+  stationTypeId String         @db.Uuid
+  status        ChargingStatus
+  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime       @default(dbgenerated("now()"))
+}
+
+model StationType {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  maxPower  Int
+  station   Station[]
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(dbgenerated("now()"))
+}
+
+enum ChargingStatus {
+  Available
+  Charging
+}
