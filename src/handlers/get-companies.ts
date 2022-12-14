@@ -3,7 +3,6 @@ import {
   APIGatewayProxyHandler,
   APIGatewayProxyResult,
 } from "aws-lambda";
-import { Prisma } from "@prisma/client";
 import prisma from "../database";
 import { parseQueryParams } from "../utils";
 import { headers } from "../constants";

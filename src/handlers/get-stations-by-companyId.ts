@@ -33,7 +33,6 @@ export const getStationsByCompanyId: APIGatewayProxyHandler = async (
 
   const { id } = parsedQuery.data;
 
-  console.log("id", id);
   const result = await prisma.station.findMany({
     where: { OR: [{ companyId: id }, { company: { parentCompanyId: id } }] },
     include: {

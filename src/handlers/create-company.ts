@@ -3,7 +3,6 @@ import {
   APIGatewayProxyHandler,
   APIGatewayProxyResult,
 } from "aws-lambda";
-import { Prisma } from "@prisma/client";
 import prisma from "../database";
 import { headers } from "../constants";
 import { z } from "zod";
@@ -41,18 +40,18 @@ export const createCompany: APIGatewayProxyHandler = async (
     };
   }
 
-  // const { id, name, parentCompanyId } = parsedBody.data;
-  // const result = await prisma.company.upsert({
-  //   where: { id },
-  //   update: {
-  //     name,
-  //     parentCompanyId,
-  //   },
-  //   create: {
-  //     ...parsedBody.data,
-  //   },
-  // });
-  const result = await prisma.company.create({ data: { ...parsedBody.data } });
+  const { id, name, parentCompanyId } = parsedBody.data;
+  const result = await prisma.company.upsert({
+    where: { id },
+    update: {
+      name,
+      parentCompanyId,
+    },
+    create: {
+      ...parsedBody.data,
+    },
+  });
+  // const result = await prisma.company.create({ data: { ...parsedBody.data } });
 
   return {
     statusCode: 200,

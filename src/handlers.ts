@@ -7,3 +7,4 @@ export { createStation } from "./handlers/create-station";
 export { getStation } from "./handlers/get-station";
 export { getStationType } from "./handlers/get-station-type";
 export { getStationsByCompanyId } from "./handlers/get-stations-by-companyId";
+export { getCompanyById } from "./handlers/get-company-by-Id";

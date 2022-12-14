@@ -33,7 +33,6 @@ export const getStation: APIGatewayProxyHandler = async (
 
   const { id } = parsedQuery.data;
 
-  console.log("id", id);
   const result = await prisma.station.findUnique({
     where: { id: id },
   });

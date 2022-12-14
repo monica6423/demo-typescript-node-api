@@ -3,7 +3,6 @@ import {
   APIGatewayProxyHandler,
   APIGatewayProxyResult,
 } from "aws-lambda";
-import { Prisma } from "@prisma/client";
 import prisma from "../database";
 import { headers } from "../constants";
 import { z } from "zod";
@@ -54,8 +53,11 @@ export const createStation: APIGatewayProxyHandler = async (
       stationTypeId,
       status,
     },
+    include: {
+      company: true,
+      stationType: true,
+    },
   });
-  // const result = await prisma.company.create({ data: { ...parsedBody.data } });
 
   return {
     statusCode: 200,

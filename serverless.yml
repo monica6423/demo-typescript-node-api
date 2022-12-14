@@ -135,6 +135,19 @@ functions:
             methods:
               - OPTIONS
               - GET
+  get-company-by-id:
+    handler: ./ncc/index.getCompanyById
+    memorySize: 256
+    events:
+      - http:
+          path: /api/get-company-by-id
+          method: get
+          cors:
+            headers: "*"
+            origin: "*"
+            methods:
+              - OPTIONS
+              - GET
   create-station-type:
     handler: ./ncc/index.createStationType
     memorySize: 256

@@ -8,11 +8,11 @@ generator client {
 }
 
 // Generates an Entity Relationship Diagram aka ERD
-// generator erd {
-//   provider                  = "prisma-erd-generator"
-//   theme                     = "forest"
-//   includeRelationFromFields = true
-// }
+generator erd {
+  provider                  = "prisma-erd-generator"
+  theme                     = "forest"
+  includeRelationFromFields = true
+}
 
 // generator PrismaTypeGraphQLTypesGenerator {
 // provider     = "yarn prisma-typegraphql-types-generator"
