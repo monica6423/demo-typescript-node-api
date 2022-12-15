@@ -13,7 +13,7 @@
   "scripts": {
     "build": "yarn run clean && yarn run compile",
     "build:ncc": "rm -rf ncc/* && yarn ncc build -m -o ncc -s --target es2020 src/handlers.ts && cp -rfv ncc/client/* ncc/ && rm -rf ncc/client ncc/libquery_engine-debian-*",
-    "build:ncc:local": "rm -rf ncc/* && yarn ncc build -m -o ncc -s --target es2020 src/handlers.ts && cp -rfv ncc/client/* ncc/ && rm -rf ncc/client && mkdir ncc/tmp",
+    "build:ncc:local": "rm -rf ncc/* && yarn ncc build -m -o ncc -s --target es2020 src/handlers.ts && cp -rfv ncc/client/* ncc/ && rm -rf ncc/client",
     "clean": "rm -rf ./dist *.tgz",
     "compile": "tsc -p tsconfig.json",
     "lint": "yarn prettier:check && yarn lint:eslint && yarn lint:prisma-format",
