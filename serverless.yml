@@ -34,19 +34,6 @@ provider:
     DATABASE_URL: "postgresql://postgres:password@localhost:5432/postgres?schema=public&connection_limit=1&pool_timeout=120"
 
 functions:
-  rpc:
-    handler: ./ncc/index.rpc
-    memorySize: 256
-    events:
-      - http:
-          path: /api/rpc
-          method: post
-          cors:
-            headers: "*"
-            origin: "*"
-            methods:
-              - OPTIONS
-              - POST
   companies:
     handler: ./ncc/index.getCompanies
     memorySize: 256

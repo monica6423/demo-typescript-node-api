@@ -35,6 +35,23 @@ export const getStations: APIGatewayProxyHandler = async (
       }),
       await prisma.station.findMany({
         where: {
+          stationType: {
+            name: {
+              contains: searchValue,
+              mode: "insensitive",
+            },
+          },
+        },
+        include: {
+          company: true,
+          stationType: true,
+        },
+        orderBy: {
+          name: Prisma.SortOrder.asc,
+        },
+      }),
+      await prisma.station.findMany({
+        where: {
           name: {
             contains: searchValue,
             mode: "insensitive",
