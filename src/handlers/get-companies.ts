@@ -4,7 +4,6 @@ import {
   APIGatewayProxyResult,
 } from "aws-lambda";
 import prisma from "../database";
-import { parseQueryParams } from "../utils";
 import { headers } from "../constants";
 
 export const getCompanies: APIGatewayProxyHandler = async (

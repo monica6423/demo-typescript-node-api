@@ -54,7 +54,7 @@ export const createCompany: APIGatewayProxyHandler = async (
   // const result = await prisma.company.create({ data: { ...parsedBody.data } });
 
   return {
-    statusCode: 200,
+    statusCode: 201,
     body: JSON.stringify(result),
     headers,
   };

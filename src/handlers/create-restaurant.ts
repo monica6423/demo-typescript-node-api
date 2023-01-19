@@ -61,7 +61,7 @@ export const createRestaurant: APIGatewayProxyHandler = async (
   });
 
   return {
-    statusCode: 200,
+    statusCode: 201,
     body: JSON.stringify(result),
     headers,
   };
