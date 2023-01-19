@@ -70,12 +70,12 @@ functions:
             methods:
               - OPTIONS
               - POST
-  get-stations:
-    handler: ./ncc/index.getStations
+  get-restaurants:
+    handler: ./ncc/index.getRestaurants
     memorySize: 256
     events:
       - http:
-          path: /api/get-stations
+          path: /api/get-restaurants
           method: get
           cors:
             headers: "*"
@@ -83,12 +83,12 @@ functions:
             methods:
               - OPTIONS
               - GET
-  get-station:
-    handler: ./ncc/index.getStation
+  get-restaurant:
+    handler: ./ncc/index.getRestaurant
     memorySize: 256
     events:
       - http:
-          path: /api/get-station
+          path: /api/get-restaurant
           method: get
           cors:
             headers: "*"
@@ -96,12 +96,12 @@ functions:
             methods:
               - OPTIONS
               - GET
-  get-station-type:
-    handler: ./ncc/index.getStationType
+  get-restaurant-type:
+    handler: ./ncc/index.getRestaurantType
     memorySize: 256
     events:
       - http:
-          path: /api/get-station-type
+          path: /api/get-restaurant-type
           method: get
           cors:
             headers: "*"
@@ -109,12 +109,12 @@ functions:
             methods:
               - OPTIONS
               - GET
-  get-stations-by-companyId:
-    handler: ./ncc/index.getStationsByCompanyId
+  get-restaurants-by-companyId:
+    handler: ./ncc/index.getRestaurantsByCompanyId
     memorySize: 256
     events:
       - http:
-          path: /api/get-stations-by-companyId
+          path: /api/get-restaurants-by-companyId
           method: get
           cors:
             headers: "*"
@@ -135,12 +135,12 @@ functions:
             methods:
               - OPTIONS
               - GET
-  create-station-type:
-    handler: ./ncc/index.createStationType
+  create-restaurant-type:
+    handler: ./ncc/index.createRestaurantType
     memorySize: 256
     events:
       - http:
-          path: /api/create-station-type
+          path: /api/create-restaurant-type
           method: post
           cors:
             headers: "*"
@@ -148,12 +148,12 @@ functions:
             methods:
               - OPTIONS
               - POST
-  create-station:
-    handler: ./ncc/index.createStation
+  create-restaurant:
+    handler: ./ncc/index.createRestaurant
     memorySize: 256
     events:
       - http:
-          path: /api/create-station
+          path: /api/create-restaurant
           method: post
           cors:
             headers: "*"

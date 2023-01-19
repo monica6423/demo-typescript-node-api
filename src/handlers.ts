@@ -1,9 +1,9 @@
 export { getCompanies } from "./handlers/get-companies";
 export { createCompany } from "./handlers/create-company";
-export { createStationType } from "./handlers/create-station-type";
-export { getStations } from "./handlers/get-stations";
-export { createStation } from "./handlers/create-station";
-export { getStation } from "./handlers/get-station";
-export { getStationType } from "./handlers/get-station-type";
-export { getStationsByCompanyId } from "./handlers/get-stations-by-companyId";
+export { createRestaurantType } from "./handlers/create-restaurant-type";
+export { getRestaurants } from "./handlers/get-restaurants";
+export { createRestaurant } from "./handlers/create-restaurant";
+export { getRestaurant } from "./handlers/get-restaurant";
+export { getRestaurantType } from "./handlers/get-restaurant-type";
+export { getRestaurantsByCompanyId } from "./handlers/get-restaurants-by-companyId";
 export { getCompanyById } from "./handlers/get-company-by-Id";

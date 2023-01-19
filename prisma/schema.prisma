@@ -33,38 +33,38 @@ datasource db {
 // have to create checks as a migration
 
 model Company {
-  id              String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
-  stations        Station[]
-  parentCompanyId String?   @db.Uuid
-  parentCompany   Company?  @relation("ParentChildren", fields: [parentCompanyId], references: [id])
-  childCompanies  Company[] @relation("ParentChildren")
-  updatedAt       DateTime  @updatedAt
-  createdAt       DateTime  @default(dbgenerated("now()"))
+  restaurants     Restaurant[]
+  parentCompanyId String?      @db.Uuid
+  parentCompany   Company?     @relation("ParentChildren", fields: [parentCompanyId], references: [id])
+  childCompanies  Company[]    @relation("ParentChildren")
+  updatedAt       DateTime     @updatedAt
+  createdAt       DateTime     @default(dbgenerated("now()"))
 }
 
-model Station {
-  id            String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String
-  companyId     String         @db.Uuid
-  company       Company        @relation(fields: [companyId], references: [id])
-  stationType   StationType    @relation(fields: [stationTypeId], references: [id])
-  stationTypeId String         @db.Uuid
-  status        ChargingStatus
-  updatedAt     DateTime       @updatedAt
-  createdAt     DateTime       @default(dbgenerated("now()"))
+model Restaurant {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String
+  companyId        String           @db.Uuid
+  company          Company          @relation(fields: [companyId], references: [id])
+  restaurantType   RestaurantType   @relation(fields: [restaurantTypeId], references: [id])
+  restaurantTypeId String           @db.Uuid
+  status           RestaurantStatus
+  updatedAt        DateTime         @updatedAt
+  createdAt        DateTime         @default(dbgenerated("now()"))
 }
 
-model StationType {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name      String
-  maxPower  Int
-  station   Station[]
-  updatedAt DateTime  @updatedAt
-  createdAt DateTime  @default(dbgenerated("now()"))
+model RestaurantType {
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String
+  franchiseFee Int
+  restaurant   Restaurant[]
+  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime     @default(dbgenerated("now()"))
 }
 
-enum ChargingStatus {
+enum RestaurantStatus {
   Available
-  Charging
+  TemporaryClose
 }

@@ -10,13 +10,13 @@ import { z } from "zod";
 export const requestBodySchema = z.object({
   id: z.string().optional(),
   name: z.string(),
-  maxPower: z
+  franchiseFee: z
     .string()
     .transform((val) => parseInt(val))
     .or(z.number()),
 });
 
-export const createStationType: APIGatewayProxyHandler = async (
+export const createRestaurantType: APIGatewayProxyHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   if (!event.body) {
@@ -39,13 +39,13 @@ export const createStationType: APIGatewayProxyHandler = async (
     };
   }
 
-  const { id, name, maxPower } = parsedBody.data;
+  const { id, name, franchiseFee } = parsedBody.data;
 
-  const result = await prisma.stationType.upsert({
+  const result = await prisma.restaurantType.upsert({
     where: { id },
     update: {
       name,
-      maxPower,
+      franchiseFee,
     },
     create: {
       ...parsedBody.data,

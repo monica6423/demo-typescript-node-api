@@ -12,7 +12,7 @@ export const requestQuerySchema = z.object({
   id: z.string().uuid().optional(),
 });
 
-export const getStation: APIGatewayProxyHandler = async (
+export const getRestaurantType: APIGatewayProxyHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   const args = parseQueryParams(event.queryStringParameters || {});
@@ -33,10 +33,18 @@ export const getStation: APIGatewayProxyHandler = async (
 
   const { id } = parsedQuery.data;
 
-  const result = await prisma.station.findUnique({
-    where: { id: id },
-  });
+  if (id) {
+    const result = await prisma.restaurantType.findUnique({
+      where: { id: id },
+    });
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+      headers,
+    };
+  }
 
+  const result = await prisma.restaurantType.findMany();
   return {
     statusCode: 200,
     body: JSON.stringify(result),

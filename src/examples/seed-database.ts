@@ -1,11 +1,11 @@
-import { ChargingStatus } from "@prisma/client";
+import { RestaurantStatus } from "@prisma/client";
 import prisma from "../database";
 
-const stationTypes: { name: string; maxPower: number }[] = [
-  { name: "Basic", maxPower: 20 },
-  { name: "Medium", maxPower: 40 },
-  { name: "Premium", maxPower: 80 },
-  { name: "Deluxe", maxPower: 100 },
+const restaurantTypes: { name: string; franchiseFee: number }[] = [
+  { name: "Basic", franchiseFee: 20 },
+  { name: "Medium", franchiseFee: 40 },
+  { name: "Premium", franchiseFee: 80 },
+  { name: "Deluxe", franchiseFee: 100 },
 ];
 
 const randomInt = (min: number, max: number) => {
@@ -18,10 +18,10 @@ const randomLengthArray = (randomInt: number) =>
 export const main = async () => {
   console.log("Seeding database.");
 
-  // Create StationTypes
-  await prisma.stationType.createMany({ data: stationTypes });
+  // Create restaurantTypes
+  await prisma.restaurantType.createMany({ data: restaurantTypes });
   // Note: createMany doesn't return the created data: https://github.com/prisma/prisma/issues/8131
-  const createdStationTypes = await prisma.stationType.findMany();
+  const createdRestaurantTypes = await prisma.restaurantType.findMany();
 
   // Create Companies
   await Promise.all(
@@ -32,17 +32,17 @@ export const main = async () => {
           childCompanies: {
             create: randomLengthArray(randomInt(1, 3)).map((childIdx) => ({
               name: `Company${parentIdx}Child${childIdx}`,
-              stations: {
+              restaurants: {
                 create: [
                   {
-                    name: `Child${childIdx}Station-${Math.random()
+                    name: `Child${childIdx}Restaurant-${Math.random()
                       .toString(36)
                       .substring(2, 7)}`,
-                    status: ChargingStatus.Available,
-                    stationType: {
+                    status: RestaurantStatus.Available,
+                    restaurantType: {
                       connect: {
-                        id: createdStationTypes[
-                          randomInt(0, stationTypes.length - 1)
+                        id: createdRestaurantTypes[
+                          randomInt(0, restaurantTypes.length - 1)
                         ].id,
                       },
                     },
@@ -51,15 +51,15 @@ export const main = async () => {
               },
             })),
           },
-          stations: {
+          restaurants: {
             create: [
               {
-                name: `Company${parentIdx}Station`,
-                status: ChargingStatus.Available,
-                stationType: {
+                name: `Company${parentIdx}Restaurant`,
+                status: RestaurantStatus.Available,
+                restaurantType: {
                   connect: {
-                    id: createdStationTypes[
-                      randomInt(0, stationTypes.length - 1)
+                    id: createdRestaurantTypes[
+                      randomInt(0, restaurantTypes.length - 1)
                     ].id,
                   },
                 },

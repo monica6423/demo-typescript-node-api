@@ -6,16 +6,17 @@ import {
 import prisma from "../database";
 import { headers } from "../constants";
 import { z } from "zod";
+import { RestaurantStatus } from "@prisma/client";
 
 export const requestBodySchema = z.object({
   id: z.string().uuid().optional(),
   name: z.string(),
   companyId: z.string(),
-  stationTypeId: z.string(),
-  status: z.enum(["Available", "Charging"]),
+  restaurantTypeId: z.string(),
+  status: z.enum([RestaurantStatus.Available, RestaurantStatus.TemporaryClose]),
 });
 
-export const createStation: APIGatewayProxyHandler = async (
+export const createRestaurant: APIGatewayProxyHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   if (!event.body) {
@@ -38,24 +39,24 @@ export const createStation: APIGatewayProxyHandler = async (
     };
   }
 
-  const { id, name, companyId, stationTypeId, status } = parsedBody.data;
-  const result = await prisma.station.upsert({
+  const { id, name, companyId, restaurantTypeId, status } = parsedBody.data;
+  const result = await prisma.restaurant.upsert({
     where: { id },
     update: {
       name,
       companyId,
-      stationTypeId,
+      restaurantTypeId,
       status,
     },
     create: {
       name,
       companyId,
-      stationTypeId,
+      restaurantTypeId,
       status,
     },
     include: {
       company: true,
-      stationType: true,
+      restaurantType: true,
     },
   });
 

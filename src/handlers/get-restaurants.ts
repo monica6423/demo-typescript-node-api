@@ -8,7 +8,7 @@ import prisma from "../database";
 import { parseQueryParams } from "../utils";
 import { headers } from "../constants";
 
-export const getStations: APIGatewayProxyHandler = async (
+export const getRestaurants: APIGatewayProxyHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   const args = parseQueryParams(event.queryStringParameters || {});
@@ -16,7 +16,7 @@ export const getStations: APIGatewayProxyHandler = async (
 
   if (searchValue) {
     const multiResult = await Promise.all([
-      await prisma.station.findMany({
+      await prisma.restaurant.findMany({
         where: {
           company: {
             name: {
@@ -27,15 +27,15 @@ export const getStations: APIGatewayProxyHandler = async (
         },
         include: {
           company: true,
-          stationType: true,
+          restaurantType: true,
         },
         orderBy: {
           name: Prisma.SortOrder.asc,
         },
       }),
-      await prisma.station.findMany({
+      await prisma.restaurant.findMany({
         where: {
-          stationType: {
+          restaurantType: {
             name: {
               contains: searchValue,
               mode: "insensitive",
@@ -44,13 +44,13 @@ export const getStations: APIGatewayProxyHandler = async (
         },
         include: {
           company: true,
-          stationType: true,
+          restaurantType: true,
         },
         orderBy: {
           name: Prisma.SortOrder.asc,
         },
       }),
-      await prisma.station.findMany({
+      await prisma.restaurant.findMany({
         where: {
           name: {
             contains: searchValue,
@@ -59,7 +59,7 @@ export const getStations: APIGatewayProxyHandler = async (
         },
         include: {
           company: true,
-          stationType: true,
+          restaurantType: true,
         },
         orderBy: {
           name: Prisma.SortOrder.asc,
@@ -85,11 +85,11 @@ export const getStations: APIGatewayProxyHandler = async (
     };
   }
 
-  const result = await prisma.station.findMany({
+  const result = await prisma.restaurant.findMany({
     ...args,
     include: {
       company: true,
-      stationType: true,
+      restaurantType: true,
     },
     orderBy: {
       name: Prisma.SortOrder.asc,

@@ -12,7 +12,7 @@ export const requestQuerySchema = z.object({
   id: z.string().uuid().optional(),
 });
 
-export const getStationsByCompanyId: APIGatewayProxyHandler = async (
+export const getRestaurant: APIGatewayProxyHandler = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   const args = parseQueryParams(event.queryStringParameters || {});
@@ -33,11 +33,8 @@ export const getStationsByCompanyId: APIGatewayProxyHandler = async (
 
   const { id } = parsedQuery.data;
 
-  const result = await prisma.station.findMany({
-    where: { OR: [{ companyId: id }, { company: { parentCompanyId: id } }] },
-    include: {
-      stationType: true,
-    },
+  const result = await prisma.restaurant.findUnique({
+    where: { id: id },
   });
 
   return {
