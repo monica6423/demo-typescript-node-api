@@ -64,4 +64,6 @@ yarn build:ncc
 ```sh
 yarn sls deploy
 ```
-![image](https://user-images.githubusercontent.com/64153133/213376928-777f1b25-2964-4d5e-8905-e3440dc68c77.png)
+
+<img width="577" alt="image" src="https://user-images.githubusercontent.com/64153133/213377056-6842e186-999b-4ae3-981e-6813f00a6dae.png">
+
